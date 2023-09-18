@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @SpringBootApplication
 public class CruddemoApplication {
 
@@ -23,11 +25,55 @@ public class CruddemoApplication {
 		return runner -> {
 			//createStudent(studentdao);
 			//createMultipleStudents(studentdao);
-			readStudent(studentdao);
+			//readStudent(studentdao);
+			//readStudent(studentdao);
+			//queryForStudents(studentdao);
+			//queryForStudentsByLastName(studentdao);
+			//updateStudent(studentdao);
+			deleteStudent(studentdao);
 		};
 	}
 
+	private void deleteStudent(StudentDAO studentdao)
+	{
+		int studentId=3;
+		System.out.println("Deleting student id"+studentId);
+		studentdao.delete(studentId);
+	}
+	private void queryForStudentsByLastName(StudentDAO studentdao) {
+     List<Student> theStudents=studentdao.findByLastName("Duck");
 
+	 //display the list of students
+		for(Student tempStudent:theStudents)
+		{
+			System.out.println(tempStudent);
+		}
+
+		}
+
+
+	public void queryForStudents(StudentDAO studentDAO)
+	{
+		//get a list of students
+		 List<Student > theStudents=studentDAO.findAll();
+
+		//display list of students
+		for(Student tempStudent:theStudents)
+		{
+			System.out.println(tempStudent);
+		}
+	}
+
+public void readStudenByName(StudentDAO studentDAO)
+{
+	System.out.println("Reading a Student By Name");
+	String name="Daffy";
+	Student myStudent=studentDAO.findByName(name);
+
+
+	//display student
+	System.out.println("Found the Student By Name"+myStudent);
+}
 	public void readStudent(StudentDAO studentDAO)
 	{
 		//craete a student Object
@@ -49,7 +95,7 @@ public class CruddemoApplication {
 
 		//display student
 		System.out.println("Found the Student"+myStudent);
-		
+
 	}
 	public void createStudent(StudentDAO studentdao)
 	{
@@ -85,4 +131,25 @@ public class CruddemoApplication {
 
 
 	}
+
+	public void updateStudent(StudentDAO studentDAO)
+	{
+		//retrieve student based on the id:primary key
+		int studentId=1;
+		System.out.println("Getting Student with id:"+studentId);
+		Student myStudent=studentDAO.findById(studentId);
+
+
+		//change first name to "Scooby
+		System.out.println("Updating student");
+		myStudent.setFirstName("Scooby");
+
+		//update the student
+		studentDAO.update(myStudent);
+
+		System.out.println("Updated student"+myStudent);
+
+
+	}
+
 }
